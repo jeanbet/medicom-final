@@ -321,30 +321,48 @@
             </div>
         </div>
         <!-- Botão para download -->
-        <div id="download-btn">
-            <button class="btn btn-primary btn-download" onclick="downloadCard()">Download</button>
-        </div>
-    </div>
+<div id="download-btn">
+    <button class="btn btn-primary btn-download" onclick="downloadCard()">Download</button>
+</div>
 
-    <!-- Inclusão da biblioteca html2canvas -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
-    <script>
-        function downloadCard() {
-            document.querySelector('.btn-download').classList.add('hide-download');
-            html2canvas(document.querySelector("#card"), { // Captura o contêiner do cartão
-                scale: 2,  // Aumenta a escala do canvas para melhorar a qualidade
-                useCORS: true, // Habilita CORS para carregar imagens de domínios externos
-                backgroundColor: null // Para manter o fundo transparente se necessário
-            }).then(canvas => {
-                const a = document.createElement('a');
-                a.href = canvas.toDataURL('image/png', 1.0); // Qualidade máxima
-                a.download = 'cartao-medico.png';
-                a.click();
-                document.querySelector('.btn-download').classList.remove('hide-download');
-            });
-        }
-    </script>
-    
+<!-- Inclusão da biblioteca html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script>
+    function downloadCard() {
+        // Oculta o botão antes de capturar a imagem
+        document.querySelector('.btn-download').classList.add('hide-download');
+
+        html2canvas(document.querySelector("#card"), {
+            scale: 2,          // Aumenta a resolução para dispositivos móveis
+            useCORS: true,     // Permite usar imagens externas se necessário
+            backgroundColor: null // Deixa o fundo transparente
+        }).then(canvas => {
+            // Cria um link temporário para download da imagem
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL('image/png', 1.0);
+            a.download = 'cartao-medico.png';
+            a.click();
+
+            // Mostra o botão de volta após o download
+            document.querySelector('.btn-download').classList.remove('hide-download');
+        });
+    }
+</script>
+
+<style>
+    /* Oculta o botão durante o download */
+    .hide-download {
+        display: none;
+    }
+
+    /* Estilos de responsividade para o cartão */
+    #card {
+        width: 100%; /* Ajusta a largura do cartão para o dispositivo */
+        max-width: 500px; /* Tamanho máximo para dispositivos maiores */
+        margin: auto; /* Centraliza o cartão */
+    }
+</style>
+
     <!-- VLibras Widget -->
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
